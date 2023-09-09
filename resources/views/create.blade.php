@@ -15,7 +15,8 @@
     <section class="container pt-5">
         <div class="row">
             <div class="col-md-5">
-                <form class="p-2" action="" method="POST">
+                <form class="p-2" action="{{ route('post#create') }}" method="POST">
+                    @csrf
                     <div class="mb-3">
                         <label for="title" class="form-label">Title</label>
                         <input type="text" name='title' class="form-control" id="title" aria-describedby="title">
@@ -30,19 +31,16 @@
             </div>
             <div class="col-md-7">
                 <div class="contents-box ">
-                    @for ($i = 0; $i < 5; $i++)
+                    @foreach ($datas as $data)
                         <div class="single p-2 shadow mb-4 rounded-3">
-                            <h3>title</h3>
-                            <p class="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum quisquam quis
-                                fugiat repellendus
-                                est
-                                explicabo quo quia, inventore modi esse consequatur atque beatae.</p>
+                            <h3>{{ $data['title'] }}</h3>
+                            <p class="text-muted">{{ $data['content'] }}</p>
                             <div class="d-flex justify-content-end fs-2">
                                 <i class="me-4 text-danger fa-solid fa-trash"></i>
                                 <i class="text-success fa-solid fa-book"></i>
                             </div>
                         </div>
-                    @endfor
+                    @endforeach
                 </div>
             </div>
         </div>
