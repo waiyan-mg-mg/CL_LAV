@@ -34,10 +34,13 @@
                     @foreach ($datas as $data)
                         <div class="single p-2 shadow mb-4 rounded-3">
                             <h3>{{ $data['title'] }}</h3>
-                            <p class="text-muted">{{ $data['content'] }}</p>
-                            <div class="d-flex justify-content-end fs-2">
-                                <i class="me-4 text-danger fa-solid fa-trash"></i>
-                                <i class="text-success fa-solid fa-book"></i>
+                            <p class="text-muted">{{ Str::limit($data['content'], 150, '.......') }}</p>
+                            <div class="d-flex justify-content-end fs-1">
+                                <a href="{{ url('delete/' . $data['id']) }}"> <i
+                                        class="me-4  text-danger fa-solid fa-trash"></i></a>
+
+                                <a href="{{ route('post#read', $data['id']) }}"> <i
+                                        class="text-success  fa-solid fa-book"></i></a>
                             </div>
                         </div>
                     @endforeach

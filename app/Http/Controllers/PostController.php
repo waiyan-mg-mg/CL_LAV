@@ -9,7 +9,7 @@ class PostController extends Controller
 {
     public function create()
     {
-        $datas = Post::all()->toArray();
+        $datas = Post::orderby('created_at', 'DESC')->get()->toArray();
         return view('create', compact('datas'));
     }
 
@@ -18,8 +18,16 @@ class PostController extends Controller
         Post::create($this->combineRequest($request));
         return redirect('/');
     }
-
-
+    public function deletePost($id)
+    {
+        Post::where('id', $id)->delete();
+        return redirect(route('home'));
+    }
+    public function readPost($id)
+    {
+        $singleData = Post::find($id)->toArray();
+        return view('read', compact('singleData'));
+    }
     private function combineRequest($request)
     {
         return [
