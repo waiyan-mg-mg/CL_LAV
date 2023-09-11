@@ -23,7 +23,7 @@
                         <div id="title" class="form-text">Title can't longer be more than 255 characters.</div>
                     </div>
                     <div class="mb-3">
-                        <label for="content" class="form-label">Password</label>
+                        <label for="content" class="form-label">Content</label>
                         <textarea name='content' class="form-control" id="content" rows="3"></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>

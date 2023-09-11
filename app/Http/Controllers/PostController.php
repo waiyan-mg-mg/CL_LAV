@@ -28,6 +28,21 @@ class PostController extends Controller
         $singleData = Post::find($id)->toArray();
         return view('read', compact('singleData'));
     }
+
+    public function updatePost($id)
+    {
+        $new = Post::find($id)->toArray();
+
+        return view('update', compact('new'));
+    }
+
+    public function postUpdated(Request $request)
+    {
+        $accepted_data = Post::find($request['id'])->toArray();
+        $modify_array = $this->combineRequest($request);
+        Post::find($accepted_data['id'])->update($modify_array);
+        return redirect()->route('home');
+    }
     private function combineRequest($request)
     {
         return [
