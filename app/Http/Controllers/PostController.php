@@ -9,19 +9,19 @@ class PostController extends Controller
 {
     public function create()
     {
-        $datas = Post::orderby('created_at', 'DESC')->get()->toArray();
+        $datas = Post::orderby('created_at', 'DESC')->paginate(3);
         return view('create', compact('datas'));
     }
 
     public function createpost(Request $request)
     {
         Post::create($this->combineRequest($request));
-        return redirect('/');
+        return redirect('/')->with(['alertCreate' => 'ပိုစ့်ဖန်တီးပြီးပါပြီ']);
     }
     public function deletePost($id)
     {
         Post::where('id', $id)->delete();
-        return redirect(route('home'));
+        return redirect(route('home'))->with(['alertDelete' => "ပိုစ့်တစ်ခုဖယ်ထုတ်ခဲ့သည်"]);
     }
     public function readPost($id)
     {
@@ -41,7 +41,7 @@ class PostController extends Controller
         $accepted_data = Post::find($request['id'])->toArray();
         $modify_array = $this->combineRequest($request);
         Post::find($accepted_data['id'])->update($modify_array);
-        return redirect()->route('home');
+        return redirect()->route('home')->with(['alertUpdate' => "ပိုစ့်တစ်ခုပြုပြင်ခဲ့သည်"]);
     }
     private function combineRequest($request)
     {
