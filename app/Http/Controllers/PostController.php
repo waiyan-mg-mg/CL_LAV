@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
@@ -15,6 +16,16 @@ class PostController extends Controller
 
     public function createpost(Request $request)
     {
+        $validateRules = [
+            'title' => 'required|unique:posts,title',
+            'content' => 'required'
+        ];
+        $errorMessage = [
+            'title.required' => "နာမည်လေးထည့်လေ..အော်",
+            'title.unique' => "ဒါထည့်ပြီးသားကြီး နောက်တစ်ခုထပ်ထည့်",
+            'content.required' => "စာကိုယ်မထည့်ပဲ ဘာသွားလုပ်မှာလဲ..တစ်ကယ်ပဲ"
+        ];
+        Validator::make($request->all(), $validateRules, $errorMessage)->validate();
         Post::create($this->combineRequest($request));
         return redirect('/')->with(['alertCreate' => 'ပိုစ့်ဖန်တီးပြီးပါပြီ']);
     }

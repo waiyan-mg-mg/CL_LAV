@@ -14,6 +14,15 @@
 @section('box')
     <section class="container pt-5">
         <div class="row">
+            {{-- @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif --}}
             <div class="col-md-5">
                 {{-- message here --}}
                 {{-- for create --}}
@@ -43,12 +52,21 @@
                     @csrf
                     <div class="mb-3">
                         <label for="title" class="form-label">Title</label>
-                        <input type="text" name='title' class="form-control" id="title" aria-describedby="title">
+                        <input type="text" value="{{ old('title') }}" name='title'
+                            class="form-control @error('title') is-invalid @enderror" id="title"
+                            aria-describedby="title">
+                        @error('title')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
                         <div id="title" class="form-text">Title can't longer be more than 255 characters.</div>
                     </div>
                     <div class="mb-3">
                         <label for="content" class="form-label">Content</label>
-                        <textarea name='content' class="form-control" id="content" rows="3"></textarea>
+                        <textarea value="{{ old('content') }}" name='content' class="form-control @error('content') is-invalid @enderror"
+                            id="content" rows="3"></textarea>
+                        @error('content')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
