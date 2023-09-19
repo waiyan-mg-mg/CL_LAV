@@ -75,14 +75,30 @@
                 <div class="contents-box ">
                     @foreach ($datas as $data)
                         <div class="single p-2 shadow mb-4 rounded-3">
+                            <div class="d-flex metaDat justify-content-between">
+                                <div class="text-muted">
+                                    {{ $data['updated_at']->format('d-m-Y') }}
+                                </div>
+                                <div class="text-uppercase text-primary">
+                                    {{ $data['address'] }}
+                                </div>
+                            </div>
+
                             <h3>{{ $data['title'] }}</h3>
                             <p class="text-muted">{{ Str::limit($data['content'], 150, '.......') }}</p>
-                            <div class="d-flex justify-content-end fs-1">
-                                <a href="{{ url('delete/' . $data['id']) }}"> <i
-                                        class="me-4  text-danger fa-solid fa-trash"></i></a>
+                            <div class="d-flex justify-content-between fs-1">
+                                <div class="metaFooter fs-4 ">
+                                    <span><i class="text-warning fa-solid fa-dollar-sign"></i> {{ $data['price'] }}
+                                        ကျပ်</span>
+                                    |<span><i class="text-warning fa-solid fa-star"></i> {{ $data['rating'] }}</span>
+                                </div>
+                                <div class="linkgp">
+                                    <a href="{{ url('delete/' . $data['id']) }}"> <i
+                                            class="me-4  text-danger fa-solid fa-trash"></i></a>
 
-                                <a href="{{ route('post#read', $data['id']) }}"> <i
-                                        class="text-success  fa-solid fa-book"></i></a>
+                                    <a href="{{ route('post#read', $data['id']) }}"> <i
+                                            class="text-success  fa-solid fa-book"></i></a>
+                                </div>
                             </div>
                         </div>
                     @endforeach

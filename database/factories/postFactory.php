@@ -16,9 +16,14 @@ class postFactory extends Factory
      */
     public function definition()
     {
+        $city = ['yangon', 'mandalay', 'naypyidaw', 'monwya', 'pyay', 'mawlamyine'];
+        $index = array_rand($city);
         return [
             'title' => $this->faker->sentence(10),
-            'content' => $this->faker->paragraph(15)
+            'content' => $this->faker->paragraph(15),
+            'price' => rand(2500, 600),
+            'address' => $city["$index"],
+            'rating' => rand(0, 5)
         ];
     }
 }

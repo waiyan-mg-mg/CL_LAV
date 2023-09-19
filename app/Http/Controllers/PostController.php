@@ -4,13 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
     public function create()
     {
-        $datas = Post::orderby('created_at', 'DESC')->paginate(3);
+        $datas = Post::select('address', DB::raw('count(address)'))->groupBy('address')->get();
+        // $datas = Post::select('address', 'title')->get();
+        dd($datas->toArray());
+        // $datas = Post::orderby('created_at', 'DESC')->paginate(3);
         return view('create', compact('datas'));
     }
 
