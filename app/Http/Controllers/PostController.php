@@ -11,10 +11,7 @@ class PostController extends Controller
 {
     public function create()
     {
-        $datas = Post::select('address', DB::raw('count(address)'))->groupBy('address')->get();
-        // $datas = Post::select('address', 'title')->get();
-        dd($datas->toArray());
-        // $datas = Post::orderby('created_at', 'DESC')->paginate(3);
+        $datas = Post::paginate(4);
         return view('create', compact('datas'));
     }
 

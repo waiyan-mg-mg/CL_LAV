@@ -72,6 +72,17 @@
                 </form>
             </div>
             <div class="col-md-7">
+                <div class="d-flex justify-content-between mb-3">
+                    <div class="fw-bold">သတင်းစုစုပေါင်း - {{ $datas->total() }} ခု</div>
+                    <div class="">
+                        <div class="input-group">
+                            <input type="text" class="form-control"
+                                aria-label="Dollar amount (with dot and two decimal places)">
+                            <span class="input-group-text bg-danger "><a href="#"><i
+                                        class="text-white fa-solid fa-magnifying-glass"></i></a></span>
+                        </div>
+                    </div>
+                </div>
                 <div class="contents-box ">
                     @foreach ($datas as $data)
                         <div class="single p-2 shadow mb-4 rounded-3">
