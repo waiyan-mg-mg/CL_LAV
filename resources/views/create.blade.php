@@ -74,13 +74,15 @@
             <div class="col-md-7">
                 <div class="d-flex justify-content-between mb-3">
                     <div class="fw-bold">သတင်းစုစုပေါင်း - {{ $datas->total() }} ခု</div>
-                    <div class="">
-                        <div class="input-group">
-                            <input type="text" class="form-control"
-                                aria-label="Dollar amount (with dot and two decimal places)">
-                            <span class="input-group-text bg-danger "><a href="#"><i
-                                        class="text-white fa-solid fa-magnifying-glass"></i></a></span>
-                        </div>
+                    <div class="search_container">
+                        <form action="{{ route('home') }}">
+                            <div class="input-group">
+                                <input name="search" type="text" class="form-control" value="{{ request('search') }}">
+                                <button type="submit" class="input-group-text bg-danger ">
+                                    <i class="text-white fa-solid fa-magnifying-glass"></i>
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
                 <div class="contents-box ">
@@ -113,8 +115,11 @@
                             </div>
                         </div>
                     @endforeach
+                    @if ($datas->total() == 0)
+                        <div class="alert alert-warning">Oops..!!No Search Data found</div>
+                    @endif
                 </div>
-                {{ $datas->links() }}
+                {{ $datas->appends(request()->query())->links() }}
             </div>
         </div>
     </section>

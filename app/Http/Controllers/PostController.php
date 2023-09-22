@@ -11,7 +11,11 @@ class PostController extends Controller
 {
     public function create()
     {
-        $datas = Post::paginate(4);
+        // $datas = Post::paginate(4);
+        $datas = Post::when(request('search'), function () {
+            return  Post::orwhere('title', 'like', '%' . request('search') . '%')
+                ->orwhere('content', 'like', '%' . request('search') . '%');
+        })->paginate(4);
         return view('create', compact('datas'));
     }
 
@@ -59,7 +63,7 @@ class PostController extends Controller
     {
         return [
             'title' => $request->title,
-            'content' => $request->content
+            'content' => $request->content,
         ];
     }
 }
