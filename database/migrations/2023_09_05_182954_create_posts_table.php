@@ -17,9 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->longText('content');
-            $table->integer('price')->nullable()->default(500);
-            $table->string('address')->nullable()->default('Hpan');
-            $table->integer('rating')->nullable()->default(0);
+            $table->integer('price')->nullable(true)->default(500);
+            $table->string('address')->nullable(true)->default('Hpan');
+            $table->integer('rating')->nullable(true)->default(0);
+            $table->string('image_url')->nullable(true);
             $table->timestamps();
         });
     }

@@ -50,7 +50,7 @@
                 <form class="p-2" action="{{ route('post#create') }}" method="POST">
 
                     @csrf
-                    <div class="mb-3">
+                    <div class="mb-3 title">
                         <label for="title" class="form-label">Title</label>
                         <input type="text" value="{{ old('title') }}" name='title'
                             class="form-control @error('title') is-invalid @enderror" id="title"
@@ -60,11 +60,44 @@
                         @enderror
                         <div id="title" class="form-text">Title can't longer be more than 255 characters.</div>
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-3 content">
                         <label for="content" class="form-label">Content</label>
                         <textarea value="{{ old('content') }}" name='content' class="form-control @error('content') is-invalid @enderror"
                             id="content" rows="3"></textarea>
                         @error('content')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                    {{-- price address rating --}}
+                    <div class="mb-3 address">
+                       <div class="input-group w-75">
+                         <span class="input-group-text" >Address City</span>
+                        <input type="text" value="{{ old('address') }}" name='address'
+                            class="form-control w-50 @error('address') is-invalid @enderror" id="address"
+                            aria-describedby="address">
+                       </div>
+                        @error('address')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                    <div class="mb-3 price">
+                        <div class="input-group w-50">
+                            <span class="input-group-text" >Price</span>
+                            <input type="number" value="{{ old('price') }}" name='price'
+                                class="form-control @error('price') is-invalid @enderror" id="price"
+                                aria-describedby="price">
+                                <span class="input-group-text" >$$</span>
+                        </div>
+                        @error('price')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                     <div class="mb-3 rating">
+                        <div class="input-group">
+                            <label for="rating" class="form-label">Rating :</label>
+                        <input type="range" class="form-range" min="0" max="5" step="1" id="rating">
+                        </div>
+                        @error('rating')
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
