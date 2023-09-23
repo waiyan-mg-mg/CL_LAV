@@ -47,7 +47,7 @@
                     </div>
                 @endif
                 {{-- message end --}}
-                <form class="p-2" action="{{ route('post#create') }}" method="POST">
+                <form class="p-2" action="{{ route('post#create') }}" enctype="multipart/form-data" method="POST">
 
                     @csrf
                     <div class="mb-3 title">
@@ -62,42 +62,56 @@
                     </div>
                     <div class="mb-3 content">
                         <label for="content" class="form-label">Content</label>
-                        <textarea value="{{ old('content') }}" name='content' class="form-control @error('content') is-invalid @enderror"
-                            id="content" rows="3"></textarea>
+                        <textarea name='content' class="form-control @error('content') is-invalid @enderror" id="content" rows="3">{{ old('content') }}</textarea>
                         @error('content')
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                     {{-- price address rating --}}
                     <div class="mb-3 address">
-                       <div class="input-group w-75">
-                         <span class="input-group-text" >Address City</span>
-                        <input type="text" value="{{ old('address') }}" name='address'
-                            class="form-control w-50 @error('address') is-invalid @enderror" id="address"
-                            aria-describedby="address">
-                       </div>
+                        <div class="input-group w-75">
+                            <span class="input-group-text">Address City</span>
+                            <input type="text" value="{{ old('address') }}" name='address'
+                                class="form-control w-50 @error('address') is-invalid @enderror" id="address"
+                                aria-describedby="address">
+                        </div>
                         @error('address')
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                     <div class="mb-3 price">
                         <div class="input-group w-50">
-                            <span class="input-group-text" >Price</span>
-                            <input type="number" value="{{ old('price') }}" name='price'
+                            <span class="input-group-text">Price</span>
+                            <input min="100" type="number" value="{{ old('price') }}" name='price'
                                 class="form-control @error('price') is-invalid @enderror" id="price"
                                 aria-describedby="price">
-                                <span class="input-group-text" >$$</span>
+                            <span class="input-group-text">$$</span>
                         </div>
                         @error('price')
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
-                     <div class="mb-3 rating">
+                    <div class="mb-3 rating">
                         <div class="input-group">
                             <label for="rating" class="form-label">Rating :</label>
-                        <input type="range" class="form-range" min="0" max="5" step="1" id="rating">
+                            <input type="range" name="rating"
+                                class="form-range @error('rating')
+                                is-invalid
+                            @enderror"
+                                min="0" max="5" step="1" id="rating">
                         </div>
                         @error('rating')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                    <div class="mb-3 image_url">
+                        <label for="image_url" class="form-label">Upload Photo:</label>
+                        <input
+                            class="form-control @error('rating')
+                        is-invalid
+                    @enderror"
+                            name="image_url" type="file">
+                        @error('image_url')
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>

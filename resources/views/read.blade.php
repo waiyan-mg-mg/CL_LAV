@@ -12,6 +12,8 @@
                     <a href="{{ route('home') }}"><i class="fs-1 fa-solid fa-caret-left"></i></a>
                     <h3 class="text-center">{{ $singleData['title'] }}</h3>
                     <p>{{ $singleData['content'] }}</p>
+                    <span>Price: {{ $singleData['price'] }}</span> | <span>Address: {{ $singleData['address'] }}</span> |
+                    <span>rating: {{ $singleData['rating'] }}</span>
                 </div>
                 <div class="d-flex justify-content-end">
                     <a href="{{ route('post#update', $singleData['id']) }}" class="btn btn-outline-success">Update</a>

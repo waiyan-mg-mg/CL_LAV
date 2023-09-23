@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rules\File;
 use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
@@ -15,23 +16,37 @@ class PostController extends Controller
         $datas = Post::when(request('search'), function () {
             return  Post::orwhere('title', 'like', '%' . request('search') . '%')
                 ->orwhere('content', 'like', '%' . request('search') . '%');
-        })->paginate(4);
+        })->orderby('updated_at', 'desc')->paginate(4);
         return view('create', compact('datas'));
     }
 
     public function createpost(Request $request)
     {
+
         $validateRules = [
             'title' => 'required|unique:posts,title',
-            'content' => 'required'
+            'content' => 'required',
+            'address' => 'required',
+            'price' => 'required',
+            'rating' => 'required',
+            'image_url' =>  'mimes:png'
         ];
         $errorMessage = [
             'title.required' => "နာမည်လေးထည့်လေ..အော်",
             'title.unique' => "ဒါထည့်ပြီးသားကြီး နောက်တစ်ခုထပ်ထည့်",
-            'content.required' => "စာကိုယ်မထည့်ပဲ ဘာသွားလုပ်မှာလဲ..တစ်ကယ်ပဲ"
+            'content.required' => "စာကိုယ်မထည့်ပဲ ဘာသွားလုပ်မှာလဲ..တစ်ကယ်ပဲ",
+            'address.required' => "မြို့လိပ်စာလေးထည့်ပါဦး",
+            'price.required' => "အမောက်လေးထည့်ပါဦး",
+            'rating.required' => "အမှတ်လေးပေးပါ",
+            'image_url.mimes' => "pngပဲထည့်ပါဟ"
         ];
         Validator::make($request->all(), $validateRules, $errorMessage)->validate();
-        Post::create($this->combineRequest($request));
+        $fileName = '';
+        if ($request->hasFile('image_url')) {
+            $fileName = uniqid() . $request->file('image_url')->getClientOriginalName();
+            $request->file('image_url')->storeAs('savedImage', $fileName);
+        }
+        Post::create($this->combineRequest($request, $fileName));
         return redirect('/')->with(['alertCreate' => 'ပိုစ့်ဖန်တီးပြီးပါပြီ']);
     }
     public function deletePost($id)
@@ -59,11 +74,16 @@ class PostController extends Controller
         Post::find($accepted_data['id'])->update($modify_array);
         return redirect()->route('home')->with(['alertUpdate' => "ပိုစ့်တစ်ခုပြုပြင်ခဲ့သည်"]);
     }
-    private function combineRequest($request)
+    private function combineRequest($request, $fileName = null)
     {
+
         return [
             'title' => $request->title,
             'content' => $request->content,
+            'address' => $request->address,
+            'price' => $request->price,
+            'rating' => $request->rating,
+            'image_url' =>  $fileName
         ];
     }
 }
