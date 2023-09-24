@@ -9,7 +9,19 @@
         <div class="row ">
             <div class="col-md-6 offset-3 bg-light p-3 rounded-2 shadow-lg">
                 <div class="contentBox">
-                    <form action="{{ route('post#updated') }}" method="GET">
+                    <form action="{{ route('post#updated') }}" method="post" enctype="multipart/form-data">
+                        @csrf
+                        <div class="overflow-hidden">
+                            @if ($new['image_url'])
+                                <img src="{{ asset('storage/' . $new['image_url']) }}" class="w-50 d-block mx-auto">
+                            @else
+                                <img src="{{ asset('default_‫img.jpg') }}" class="w-50 d-block mx-auto">
+                            @endif
+                            <div class="mb-3">
+                                <label class="form-label text-warning">Change or add above photo::</label>
+                                <input class="form-control" type="file" name="image_url">
+                            </div>
+                        </div>
                         <input type="hidden" name="id" value="{{ $new['id'] }}">
                         <input name="title" type="text" value="{{ $new['title'] }}"
                             class="form-control mb-3 form-control-lg">

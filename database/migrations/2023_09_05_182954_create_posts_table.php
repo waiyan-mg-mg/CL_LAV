@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use SebastianBergmann\Type\NullType;
 
 return new class extends Migration
 {
@@ -20,7 +21,7 @@ return new class extends Migration
             $table->integer('price')->nullable(true)->default(500);
             $table->string('address')->nullable(true)->default('Hpan');
             $table->integer('rating')->nullable(true)->default(0);
-            $table->string('image_url')->nullable(true);
+            $table->string('image_url')->nullable(true)->default(null);
             $table->timestamps();
         });
     }

@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rules\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
@@ -29,7 +28,7 @@ class PostController extends Controller
             'address' => 'required',
             'price' => 'required',
             'rating' => 'required',
-            'image_url' =>  'mimes:png'
+            'image_url' =>  'mimes:png,jpg,jpeg'
         ];
         $errorMessage = [
             'title.required' => "နာမည်လေးထည့်လေ..အော်",
@@ -38,7 +37,7 @@ class PostController extends Controller
             'address.required' => "မြို့လိပ်စာလေးထည့်ပါဦး",
             'price.required' => "အမောက်လေးထည့်ပါဦး",
             'rating.required' => "အမှတ်လေးပေးပါ",
-            'image_url.mimes' => "pngပဲထည့်ပါဟ"
+            'image_url.mimes' => "png,jpg,jpeg ပဲထည့်ပါဟ"
         ];
         Validator::make($request->all(), $validateRules, $errorMessage)->validate();
         $fileName = '';
@@ -69,8 +68,17 @@ class PostController extends Controller
 
     public function postUpdated(Request $request)
     {
+        $fileName = '';
+        $oldImgPath = Post::find($request['id'])->toArray()['image_url'];
+        if ($request->hasFile('image_url')) {
+            $fileName = uniqid() . $request->file('image_url')->getClientOriginalName();
+            $request->file('image_url')->storeAs('public', $fileName);
+            Storage::delete('public/' . $oldImgPath);
+        } else {
+            $fileName = $oldImgPath;
+        }
         $accepted_data = Post::find($request['id'])->toArray();
-        $modify_array = $this->combineRequest($request);
+        $modify_array = $this->combineRequest($request, $fileName);
         Post::find($accepted_data['id'])->update($modify_array);
         return redirect()->route('home')->with(['alertUpdate' => "ပိုစ့်တစ်ခုပြုပြင်ခဲ့သည်"]);
     }

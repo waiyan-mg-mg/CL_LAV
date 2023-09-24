@@ -8,4 +8,4 @@ Route::post('/createpost', [PostController::class, 'createpost'])->name('post#cr
 Route::get('/delete/{id}', [PostController::class, 'deletePost'])->name('post#delete');
 Route::get('/read/{id}', [PostController::class, 'readPost'])->name('post#read');
 Route::get('/update/{id}', [PostController::class, 'updatePost'])->name('post#update');
-Route::get('updatedPost', [PostController::class, 'postUpdated'])->name('post#updated');
+Route::post('updatedPost', [PostController::class, 'postUpdated'])->name('post#updated');
