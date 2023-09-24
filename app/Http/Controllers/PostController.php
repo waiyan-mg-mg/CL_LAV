@@ -44,7 +44,7 @@ class PostController extends Controller
         $fileName = '';
         if ($request->hasFile('image_url')) {
             $fileName = uniqid() . $request->file('image_url')->getClientOriginalName();
-            $request->file('image_url')->storeAs('savedImage', $fileName);
+            $request->file('image_url')->storeAs('public', $fileName);
         }
         Post::create($this->combineRequest($request, $fileName));
         return redirect('/')->with(['alertCreate' => 'ပိုစ့်ဖန်တီးပြီးပါပြီ']);
